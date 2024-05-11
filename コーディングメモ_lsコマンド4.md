@@ -1,46 +1,72 @@
 # lsコマンド4コーディングメモ
 
-ls -lコマンドの詳細
+`ls -l`では以下の結果が表示される。
 
-`man ls`の内容
-> (The lowercase letter “ell”.) List files in the long format, as described in the The Long Format subsection
-below.
+- 合計ブロック数
+[Q＆A: \`ls \-l\`コマンドで、一番最初に出てくるブロック数の計算方法を教えてください。 \| FBC](https://bootcamp.fjord.jp/questions/1903) を参照。
 
->BLOCKSIZE
->
->If this is set, its value, rounded up to 512 or down to a multiple of 512, will be used as the block size in bytes by the -l and -s options.  See The Long Format subsection for more information.
-
-The Long Formatの内容
-`ls -l`は以下の構成となっている
-BLOCKSIZE: ファイルシステム上の領域を扱う最小単位。各ファイルサイズは`ls -s`で確認可能
-file mode:
-number of links:
-owner name: 
-group name: 
-number of bytes in the file: 
-abbreviated month: 
-day-of-month file was last modified:
-hour file last modified:
-minute file last modified:
-pathname:
-
+- ファイルタイプ
+- パーミション
+- ハードリンクの数
+- オーナー名
+- グループ名
+- バイトサイズ
+- タイムスタンプ
+- ファイル名
 
 ## 仕様を分解する
 
  1. 現状を把握する
- my-lsコマンドにより、横３列で3行に
+ my-lsコマンドにより、横３列で表示。
  2. 追加仕様を把握する
     1. 追加仕様（あるべき姿）
+    細かい情報を縦１列で
     2. 追加仕様を機能に分割化
-    3. 現状の機能との差分
- 3. 機能をタスク化して優先順位を決める
-    1. タスク一覧
-    2. タスクの作業時間見積もり
+      - ファイルの細かい情報取得
+      - 合計ブロック数計算
+      - 縦１行で表示
 
-## コードの構成を考える
+## コードを構成する部品の検討
 
-1. 追加機能に見合うコードの構成を検討
-   1. 入力と出力は何か？
-   2. データ構造はどうすればいいか？
-2. テストの構成を検討（正常系、異常系、セキュリティ）
-3. 検討したコード構成に合うライブラリは？
+### ファイルの細かい情報取得
+
+#### 各ファイルの情報に関して
+
+File::Statを使用。
+
+- ファイルタイプ
+[【Ruby】File::Stat\#modeが返すファイルモードの数値を記号表記に変換する \- あまブログ](https://ama-tech.hatenablog.com/convert-file-permissions-numeric-to-symbolic-in-ruby) を参考に
+- パーミション
+同上
+- ハードリンクの数
+nlink
+- オーナー名
+Etc.#getpwuid(uid).name
+- グループ名
+Etc.#getpwuid(gid).name
+- バイトサイズ
+.size
+- タイムスタンプ
+mtime（またはctime）
+- ファイル名
+パスの末尾
+
+#### ls -lコマンドの表示に関して
+
+- 合計ブロック数計算
+(blksizeの合計/OSのブロックサイズ).round
+- 縦１行で表示
+
+## テスト構成
+
+1. オプションにより1列と3列を切り替え
+2. 空の値を1列表示
+3. ファイルの数だけ行を表示
+   問題：最終的に表示するときに、ファイルサイズをrjustとファイル名をljustする必要があるので、各ファイルの情報だけでなく、全体の情報を比較する必要がある
+   方針：ファイル情報のオブジェクトを配列に入れて、最後に上記を考慮したテキストからなる配列を作る
+   1. 各ファイルの同じタイプの情報を先にテキスト化してリストにいれる
+   2. 各リスト同士を結合して、最終的に必要なファイル情報のテキストリスト作成
+   つまり、各情報のタイプごとにメソッドを作成する
+4. 各ファイルの各表示要素出力のメソッドを作成(8要素)
+5. 合計ブロック数計算メソッド
+6. 5を合体して表示（ls -lコマンド表示）
