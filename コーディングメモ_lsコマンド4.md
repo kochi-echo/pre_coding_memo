@@ -106,7 +106,8 @@ mtime（またはctime）
     - 引数：target_file or target_dirの末尾
     - `align_jp_str_list_to_left`
 - [ ] 取得したファイル情報リスト群を各ファイルごとに一つのテキストとなるように結合
-  - それぞれのファイル情報リストの先頭から繋ぎ合わせる(`Array#zip.map`)
+  - 取得した内容を`files_info_for_each_info_type`に追加していく
+  - transposeとjoinでリストの先頭から繋ぎ合わせる
 - [ ] 合計ブロック数計算メソッド
   - バイトサイズsum/512をround
 - [ ] 5を合体して表示（ls -lコマンド表示）
