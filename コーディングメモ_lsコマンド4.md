@@ -76,27 +76,27 @@ mtime（またはctime）
 
 - [x] オプションにより1列と3列を切り替え
 - [x] 空の値を1列表示
-- [ ] ファイル情報リスト表示整形
-  - [ ] 英数字右端揃え整形メソッド`align_str_list_to_right`
-    - 引数：`File::Stat#size`
+- [x] ファイル情報リスト表示整形
+  - [x] 英数字右端揃え整形メソッド`align_str_list_to_right`
+    - 引数：strのリスト
     - 戻り値：ファイルサイズの整形されたテキストリスト
     - 中身：リストの中の`String#size.max`をもとにリストの要素を
   `rjust`
-  - [ ] 日本語左端揃え整形メソッド`align_jp_str_list_to_left`
+  - [x] 日本語左端揃え整形メソッド`align_jp_str_list_to_left`
     - 中身：リストの中の`String#size.max`をもとにリストの要素を
   `ljust_jp`
 - [ ] ファイル情報内容取得
   - [ ] ファイルタイプ&パーミション
-  - [ ] ハードリンクの数
+  - [x] ハードリンクの数
     - 引数：nlink
     - `align_str_list_to_right`
-  - [ ] オーナー名
+  - [x] オーナー名
     - 引数：Etc.#getpwuid(uid).name
-    - `align_str_list_to_right`
+    - `align_jp_str_list_to_left`
   - [ ] グループ名
     - 引数：Etc.#getpwuid(gid).name
-    - `align_str_list_to_right`
-  - [ ] バイトサイズ
+    - `align_jp_str_list_to_left`
+  - [x] バイトサイズ
     - 引数：size
     - `align_str_list_to_right`
   - [ ] タイムスタンプ
