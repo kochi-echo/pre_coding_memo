@@ -85,34 +85,41 @@ mtime（またはctime）
   - [x] 日本語左端揃え整形メソッド`align_jp_str_list_to_left`
     - 中身：リストの中の`String#size.max`をもとにリストの要素を
   `ljust_jp`
-- [ ] ファイル情報内容取得
-  - [ ] ファイルタイプ&パーミション
+- [x] ファイル情報内容取得
+  - [x] ファイルタイプ&パーミション
+    - [x] Linuxファイルモードの意味を調べる
+    結局ただのbitをマスクして、8進数で状態判別しているだけだった
+    - [x] ファイルモードをbit分割し、各要素でhashに入れる
+    - [x] ファイルタイプ：4bitに対して、8進数の対応記号ハッシュと照らし合わせて、テキスト出力
+    - [x] 特殊権限：4bitに対して、8進数の対応記号ハッシュと照らし合わせて、テキスト出力
+    - [x] パーミッション：3bitに対して、対応bitが1の時、対応記号をテキストに書き込む
+    - [x] 最後に@をつける
   - [x] ハードリンクの数
     - 引数：nlink
     - `align_str_list_to_right`
   - [x] オーナー名
     - 引数：Etc.#getpwuid(uid).name
     - `align_jp_str_list_to_left`
-  - [ ] グループ名
+  - [x] グループ名
     - 引数：Etc.#getpwuid(gid).name
     - `align_jp_str_list_to_left`
   - [x] バイトサイズ
     - 引数：size
     - `align_str_list_to_right`
-  - [ ] タイムスタンプ
+  - [x] タイムスタンプ
     - 引数：mtime
     - 月、日、時間でそれぞれリスト化
     - `align_str_list_to_right`
     - ファイルごとに月、日、時間を一つのテキストにしてリスト化
-  - [ ] ファイル名
+  - [x] ファイル名
     - 引数：target_file or target_dirの末尾
     - `align_jp_str_list_to_left`
-- [ ] 取得したファイル情報リスト群を各ファイルごとに一つのテキストとなるように結合
+- [x] 取得したファイル情報リスト群を各ファイルごとに一つのテキストとなるように結合
   - 取得した内容を`files_info_for_each_info_type`に追加していく
   - transposeとjoinでリストの先頭から繋ぎ合わせる
-- [ ] 合計ブロック数計算メソッド
-  - バイトサイズsum/512をround
-- [ ] 合計ブロック数とファイル情報を合体して表示（ls -lコマンド表示）
+- [x] 合計ブロック数計算メソッド
+  - バイトサイズsum/512をround->block.sumで
+- [x] 合計ブロック数とファイル情報を合体して表示（ls -lコマンド表示）
 - [ ] ファイル分割(method_and_parts_of)
 
 ## 提出チェック表
