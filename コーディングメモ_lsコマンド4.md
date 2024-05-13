@@ -120,7 +120,8 @@ mtime（またはctime）
 - [x] 合計ブロック数計算メソッド
   - バイトサイズsum/512をround->block.sumで
 - [x] 合計ブロック数とファイル情報を合体して表示（ls -lコマンド表示）
-- [ ] ファイル分割(method_and_parts_of)
+- [x] ファイル分割(method_and_parts_of)
+- [ ] コマンドでの動作確認
 
 ## 提出チェック表
 
