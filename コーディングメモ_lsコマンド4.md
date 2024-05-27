@@ -136,3 +136,64 @@ mtime（またはctime）
 - [x] 3つの原則(KISS, YAGNI, DRY)に従っているか？
 - [x] push先とpushするbranchは正しいか？
 - [x] PR先は正しいか？
+
+## 修正依頼を受けてメソッド構成変更
+
+- get_file_names
+  - 入力：コマンド引数
+  - path_to_directory_and_file
+  - select_files
+  - 出力：表示するテキストリスト
+- path_to_directory_and_file
+  - 入力：絶対パス
+  - 出力：ディレクトリとファイル名
+- select_files
+  - 入力：ファイル名、ディレクトリ名
+  - get_files_info_text
+  - 出力：表示するテキストリスト
+- get_files_info_text
+  - 入力：ディレクトリ、全ファイル名
+  - get_files_info_each_type
+  - 出力：表示するテキストリスト
+- get_files_info_each_type
+  - 入力：ディレクトリ、全ファイル名
+  - 出力：各ファイルの情報のテキストリスト
+
+### 課題
+
+- メソッド名にgetを使わない
+- get_file_namesがファイル名ではなく、表示するテキストリストを出力している
+- select_filesがget_file_namesからしか、呼び出されていない
+- get_files_info_textとget_files_info_each_typeを分ける必要がない
+- get_files_info_textでテストをするより、get_file_namesでテストをするべき
+
+### 修正案
+
+#### get_file_namesがファイル名ではなく、表示するテキストリストを出力している
+
+名前変更
+
+get_file_names -> argument_to_files_info_list
+generate_name_list_text -> files_info_list_to_displayed_text
+
+#### 不必要なメソッド分割
+
+select_filesをget_file_namesに挿入
+get_files_info_each_typeをget_files_info_textに挿入
+
+#### get_files_info_textでテストをするより、get_file_namesでテストをするべき
+
+get_file_namesでテスト修正
+
+#### get_files_info_textとget_files_info_each_typeを分ける必要がない
+
+#### その他
+
+conver_はいらない
+
+### タスクリスト
+
+- [x] メソッド名と戻り値名変更
+- [x] covert_削除
+- [x] select_filesをget_file_namesに挿入し、テスト確認
+- [ ] get_files_info_each_typeをget_files_info_textに挿入し、テスト確認->テストしにくかったため、そのままにした
